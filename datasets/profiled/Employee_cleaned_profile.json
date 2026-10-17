@@ -1,0 +1,210 @@
+{
+  "basic_info": {
+    "rows": 2625,
+    "columns": 9,
+    "memory_usage_kb": 243.09,
+    "dtypes": {
+      "Education": "str",
+      "JoiningYear": "int64",
+      "City": "str",
+      "PaymentTier": "int64",
+      "Age": "int64",
+      "Gender": "str",
+      "EverBenched": "str",
+      "ExperienceInCurrentDomain": "int64",
+      "LeaveOrNot": "int64"
+    },
+    "numerical_columns": [
+      "JoiningYear",
+      "PaymentTier",
+      "Age",
+      "ExperienceInCurrentDomain",
+      "LeaveOrNot"
+    ],
+    "categorical_columns": [
+      "Education",
+      "City",
+      "Gender",
+      "EverBenched"
+    ]
+  },
+  "missing_values": {
+    "total_missing": 0,
+    "total_missing_percent": 0.0,
+    "per_column": {
+      "Education": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "JoiningYear": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "City": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "PaymentTier": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "Age": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "Gender": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "EverBenched": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "ExperienceInCurrentDomain": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      },
+      "LeaveOrNot": {
+        "missing_count": 0,
+        "missing_percent": 0.0
+      }
+    }
+  },
+  "duplicates": {
+    "duplicate_rows": 0,
+    "duplicate_percent": 0.0
+  },
+  "numerical_stats": {
+    "JoiningYear": {
+      "mean": 2015.1314,
+      "median": 2015.0,
+      "std": 1.8641,
+      "min": 2012.0,
+      "max": 2018.0,
+      "q1": 2014.0,
+      "q2": 2015.0,
+      "q3": 2017.0
+    },
+    "PaymentTier": {
+      "mean": 2.7032,
+      "median": 3.0,
+      "std": 0.5445,
+      "min": 1.0,
+      "max": 3.0,
+      "q1": 2.0,
+      "q2": 3.0,
+      "q3": 3.0
+    },
+    "Age": {
+      "mean": 30.9322,
+      "median": 30.0,
+      "std": 5.0317,
+      "min": 22.0,
+      "max": 41.0,
+      "q1": 27.0,
+      "q2": 30.0,
+      "q3": 35.0
+    },
+    "ExperienceInCurrentDomain": {
+      "mean": 2.6651,
+      "median": 2.0,
+      "std": 1.5732,
+      "min": 0.0,
+      "max": 7.0,
+      "q1": 2.0,
+      "q2": 2.0,
+      "q3": 4.0
+    },
+    "LeaveOrNot": {
+      "mean": 0.3832,
+      "median": 0.0,
+      "std": 0.4863,
+      "min": 0.0,
+      "max": 1.0,
+      "q1": 0.0,
+      "q2": 0.0,
+      "q3": 1.0
+    }
+  },
+  "categorical_stats": {
+    "Education": {
+      "unique_values": 3,
+      "most_frequent": "Bachelors",
+      "most_frequent_count": 1870,
+      "most_frequent_percent": 71.24,
+      "value_counts": {
+        "Bachelors": 1870,
+        "Masters": 603,
+        "PHD": 152
+      }
+    },
+    "City": {
+      "unique_values": 3,
+      "most_frequent": "Bangalore",
+      "most_frequent_count": 1123,
+      "most_frequent_percent": 42.78,
+      "value_counts": {
+        "Bangalore": 1123,
+        "New Delhi": 752,
+        "Pune": 750
+      }
+    },
+    "Gender": {
+      "unique_values": 2,
+      "most_frequent": "Male",
+      "most_frequent_count": 1466,
+      "most_frequent_percent": 55.85,
+      "value_counts": {
+        "Male": 1466,
+        "Female": 1159
+      }
+    },
+    "EverBenched": {
+      "unique_values": 2,
+      "most_frequent": "No",
+      "most_frequent_count": 2279,
+      "most_frequent_percent": 86.82,
+      "value_counts": {
+        "No": 2279,
+        "Yes": 346
+      }
+    }
+  },
+  "correlation_matrix": {
+    "JoiningYear": {
+      "JoiningYear": 1.0,
+      "PaymentTier": -0.1174,
+      "Age": 0.0227,
+      "ExperienceInCurrentDomain": -0.0249,
+      "LeaveOrNot": 0.166
+    },
+    "PaymentTier": {
+      "JoiningYear": -0.1174,
+      "PaymentTier": 1.0,
+      "Age": 0.0918,
+      "ExperienceInCurrentDomain": -0.0306,
+      "LeaveOrNot": -0.1057
+    },
+    "Age": {
+      "JoiningYear": 0.0227,
+      "PaymentTier": 0.0918,
+      "Age": 1.0,
+      "ExperienceInCurrentDomain": -0.0683,
+      "LeaveOrNot": -0.1149
+    },
+    "ExperienceInCurrentDomain": {
+      "JoiningYear": -0.0249,
+      "PaymentTier": -0.0306,
+      "Age": -0.0683,
+      "ExperienceInCurrentDomain": 1.0,
+      "LeaveOrNot": -0.016
+    },
+    "LeaveOrNot": {
+      "JoiningYear": 0.166,
+      "PaymentTier": -0.1057,
+      "Age": -0.1149,
+      "ExperienceInCurrentDomain": -0.016,
+      "LeaveOrNot": 1.0
+    }
+  }
+}

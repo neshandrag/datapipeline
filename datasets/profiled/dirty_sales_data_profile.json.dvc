@@ -1,0 +1,5 @@
+outs:
+- md5: 092a170262c26d211ecf793711a26fc3
+  size: 4006
+  hash: md5
+  path: dirty_sales_data_profile.json

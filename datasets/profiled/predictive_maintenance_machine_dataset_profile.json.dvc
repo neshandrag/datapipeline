@@ -1,0 +1,5 @@
+outs:
+- md5: c68064ed1f433e8fbf22f53fe6c5efc1
+  size: 11616
+  hash: md5
+  path: predictive_maintenance_machine_dataset_profile.json

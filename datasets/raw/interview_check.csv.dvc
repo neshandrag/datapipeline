@@ -1,0 +1,5 @@
+outs:
+- md5: bf45f51b341d325554eb39facdd10845
+  size: 255
+  hash: md5
+  path: interview_check.csv

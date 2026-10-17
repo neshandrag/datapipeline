@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DataPrep — Project Review Dossier</title>
+<style>
+  :root {
+    --paper: #f5f4ef;
+    --paper-raised: #ffffff;
+    --paper-dim: #eae7dd;
+    --ink: #1b1f1d;
+    --ink-dim: #5b635f;
+    --ink-faint: #8a9089;
+    --line: #dad6c9;
+    --accent: #1e6e62;
+    --accent-ink: #0f4038;
+    --accent-soft: #dceae5;
+    --amber: #a8621f;
+    --amber-soft: #f2e2cd;
+    --code-bg: #edeae0;
+    --shadow: 0 1px 2px rgba(27,31,29,0.04), 0 8px 24px rgba(27,31,29,0.05);
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: "Segoe UI", -apple-system, system-ui, sans-serif;
+    --font-mono: Consolas, "SFMono-Regular", ui-monospace, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #14171a;
+      --paper-raised: #1b1f23;
+      --paper-dim: #20252b;
+      --ink: #ece9e2;
+      --ink-dim: #a2aaa5;
+      --ink-faint: #6c7570;
+      --line: #2c3238;
+      --accent: #4fbfa8;
+      --accent-ink: #bfefe3;
+      --accent-soft: #1c332f;
+      --amber: #e0a458;
+      --amber-soft: #3a2f1e;
+      --code-bg: #1e2328;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14171a;
+    --paper-raised: #1b1f23;
+    --paper-dim: #20252b;
+    --ink: #ece9e2;
+    --ink-dim: #a2aaa5;
+    --ink-faint: #6c7570;
+    --line: #2c3238;
+    --accent: #4fbfa8;
+    --accent-ink: #bfefe3;
+    --accent-soft: #1c332f;
+    --amber: #e0a458;
+    --amber-soft: #3a2f1e;
+    --code-bg: #1e2328;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  :root[data-theme="light"] {
+    --paper: #f5f4ef;
+    --paper-raised: #ffffff;
+    --paper-dim: #eae7dd;
+    --ink: #1b1f1d;
+    --ink-dim: #5b635f;
+    --ink-faint: #8a9089;
+    --line: #dad6c9;
+    --accent: #1e6e62;
+    --accent-ink: #0f4038;
+    --accent-soft: #dceae5;
+    --amber: #a8621f;
+    --amber-soft: #f2e2cd;
+    --code-bg: #edeae0;
+    --shadow: 0 1px 2px rgba(27,31,29,0.04), 0 8px 24px rgba(27,31,29,0.05);
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-soft); color: var(--accent-ink); }
+
+  a { color: var(--accent-ink); }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; color: var(--ink); }
+
+  /* ---------- Presentation-order nav ---------- */
+  .toc {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .toc-inner { display: inline-flex; gap: 4px; align-items: center; }
+  .toc a {
+    display: inline-block;
+    font-size: 12.5px;
+    font-family: var(--font-body);
+    text-decoration: none;
+    color: var(--ink-dim);
+    padding: 6px 10px;
+    border-radius: 5px;
+  }
+  .toc a:hover { background: var(--paper-dim); color: var(--ink); }
+  .toc .toc-label {
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0 10px 0 2px;
+    border-right: 1px solid var(--line);
+    margin-right: 4px;
+  }
+
+  /* ---------- Cover ---------- */
+  .cover {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 64px 24px 40px;
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+  }
+  .cover h1 {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .cover .tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink-dim);
+    margin: 0 0 30px;
+    max-width: 60ch;
+  }
+  .cover-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .meta-field {
+    background: var(--paper-raised);
+    padding: 12px 16px;
+  }
+  .meta-field label {
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 5px;
+  }
+  .meta-field [contenteditable] {
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    color: var(--ink);
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 2px;
+    min-height: 1.3em;
+  }
+  .meta-field [contenteditable]:focus { outline: none; border-bottom-color: var(--accent); }
+  .meta-hint { font-size: 12px; color: var(--ink-faint); margin-top: 10px; }
+
+  /* ---------- Sections ---------- */
+  main { max-width: 880px; margin: 0 auto; padding: 8px 24px 100px; }
+  .wide { max-width: 1040px; }
+
+  section.block { padding: 46px 0; border-top: 1px solid var(--line); }
+  section.block:first-of-type { border-top: none; }
+
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .sec-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    border-radius: 4px;
+    padding: 2px 8px;
+    flex-shrink: 0;
+  }
+  .sec-head h2 { font-size: 1.55rem; margin: 0; }
+  .sec-sub { color: var(--ink-dim); font-size: 14.5px; margin: 6px 0 22px; max-width: 68ch; }
+
+  p { max-width: 70ch; }
+  .lede { font-family: var(--font-display); font-size: 1.08rem; line-height: 1.65; color: var(--ink); }
+
+  ul.plain, ol.plain { padding-left: 1.2em; max-width: 68ch; }
+  ul.plain li, ol.plain li { margin: 7px 0; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 720px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .card h3 { font-size: 1.02rem; margin: 0 0 8px; }
+  .card p { font-size: 13.8px; color: var(--ink-dim); margin: 0; }
+
+  .pain-list { display: flex; flex-direction: column; gap: 10px; }
+  .pain-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .pain-item .mark { font-family: var(--font-mono); color: var(--amber); font-size: 13px; margin-top: 2px; }
+  .pain-item p { margin: 0; font-size: 14px; }
+  .pain-item strong { color: var(--ink); }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--paper-raised); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.6px; }
+  thead th {
+    text-align: left;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    background: var(--paper-dim);
+    padding: 10px 14px;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line);
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--ink);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: color-mix(in srgb, var(--accent-soft) 35%, transparent); }
+  td.num, th.num { font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+  code, .tag {
+    font-family: var(--font-mono);
+    font-size: 12.3px;
+    background: var(--code-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .method-get { color: var(--accent-ink); font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; }
+  .method-post { color: var(--amber); font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .chip-done { background: var(--accent-soft); color: var(--accent-ink); }
+  .chip-pending { background: var(--amber-soft); color: var(--amber); }
+
+  /* ---------- Mermaid diagram frame ---------- */
+  .diagram-frame {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .diagram-frame pre {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.55;
+    white-space: pre;
+    color: var(--ink-dim);
+  }
+  .diagram-caption { font-size: 12.5px; color: var(--ink-faint); margin-top: 10px; }
+
+  /* ---------- Pipeline steps ---------- */
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .pipe-step {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    color: var(--ink);
+  }
+  .pipe-arrow { color: var(--ink-faint); font-size: 15px; }
+
+  /* ---------- Presentation flow (speaker script) ---------- */
+  .flow-list { display: flex; flex-direction: column; gap: 0; }
+  .flow-item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .flow-item:last-child { border-bottom: none; }
+  .flow-time {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    height: fit-content;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .flow-item h4 { margin: 0 0 4px; font-size: 14.5px; font-family: var(--font-body); font-weight: 700; }
+  .flow-item p { margin: 0; font-size: 13.6px; color: var(--ink-dim); }
+  .flow-item .tip { font-size: 12.5px; color: var(--amber); margin-top: 5px; }
+
+  footer {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 30px 24px 70px;
+    color: var(--ink-faint);
+    font-size: 12.5px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media print {
+    .toc { display: none; }
+    section.block { break-inside: avoid; page-break-after: auto; }
+    body { font-size: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; }
+  }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <span class="toc-label">Jump to</span>
+    <a href="#s1">1 Problem</a>
+    <a href="#s2">2 Solution</a>
+    <a href="#s3">3 Objectives</a>
+    <a href="#s4">4 Uniqueness</a>
+    <a href="#s5">5 Architecture</a>
+    <a href="#s6">6 Tech Stack</a>
+    <a href="#s7">7 Modules</a>
+    <a href="#s8">8 Phases</a>
+    <a href="#s9">9 API</a>
+    <a href="#s10">10 Frontend</a>
+    <a href="#s11">11 Testing/CI</a>
+    <a href="#s12">12 Roadmap</a>
+    <a href="#s13">13 How to Present</a>
+  </div>
+</nav>
+
+<div class="cover">
+  <span class="kicker">Project Review Dossier</span>
+  <h1>DataPrep</h1>
+  <p class="tagline">AI-powered dataset repair &amp; MLOps platform — turning messy raw CSVs into trusted, versioned, monitored, ML-ready data.</p>
+  <div class="cover-meta">
+    <div class="meta-field"><label>Presented by</label><div contenteditable="true">Your Name</div></div>
+    <div class="meta-field"><label>Reg. / Roll No.</label><div contenteditable="true">—</div></div>
+    <div class="meta-field"><label>Class / Department</label><div contenteditable="true">—</div></div>
+    <div class="meta-field"><label>Guide</label><div contenteditable="true">Ma'am's Name</div></div>
+    <div class="meta-field"><label>Date</label><div contenteditable="true">23 July 2026</div></div>
+    <div class="meta-field"><label>Repository</label><div contenteditable="true">MLOps / DataPrep</div></div>
+  </div>
+  <p class="meta-hint">Click any field above to fill it in before presenting or printing to PDF.</p>
+</div>
+
+<main>
+
+  <section class="block" id="s1">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Problem Statement</h2></div>
+    <p class="sec-sub">Why this project needed to exist</p>
+    <p class="lede">Raw datasets are never clean enough to model on. Every real-world CSV arrives with missing
+    values, duplicate rows, outliers, wrong types, and inconsistent structure — and cleaning it is usually a
+    one-off manual script that nobody can reproduce, audit, or trust six months later.</p>
+    <div class="pain-list">
+      <div class="pain-item"><span class="mark">✕</span><p><strong>No reproducibility</strong> — ad-hoc cleaning notebooks aren't versioned; re-running "the same" cleanup on new data gives different, undocumented results.</p></div>
+      <div class="pain-item"><span class="mark">✕</span><p><strong>No measurable quality</strong> — "the data looks clean" is an opinion, not a number. Teams have no consistent score to compare dataset versions or set a quality bar.</p></div>
+      <div class="pain-item"><span class="mark">✕</span><p><strong>No experiment or model trail</strong> — the imputers and outlier detectors fitted during cleaning are normally thrown away after use, so nobody can tell which model version fixed which dataset.</p></div>
+      <div class="pain-item"><span class="mark">✕</span><p><strong>No drift awareness</strong> — when new data starts looking statistically different from what a model was trained on, most pipelines have no way to notice until predictions quietly degrade.</p></div>
+      <div class="pain-item"><span class="mark">✕</span><p><strong>No operational visibility</strong> — without live monitoring, failures in the cleaning pipeline itself (bad uploads, mid-run errors) go unnoticed.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="s2">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Proposed Solution</h2></div>
+    <p class="sec-sub">What DataPrep does about it</p>
+    <p class="lede"><strong>DataPrep</strong> is a full-stack platform — a FastAPI backend and a React frontend —
+    that takes a CSV through one continuous, auditable pipeline: upload, validate, profile, repair, quality-score,
+    and report. What makes it more than a cleaning script is that every stage is wired into real MLOps
+    infrastructure running underneath it.</p>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card">
+        <h3>Cleaning, done right</h3>
+        <p>A data-driven repair engine with no hardcoded per-dataset rules: structural fixes, type inference,
+        duplicate removal, KNN/most-frequent imputation, outlier handling (IQR / Isolation Forest), low-variance
+        column pruning, and CleanLab label-error detection.</p>
+      </div>
+      <div class="card">
+        <h3>MLOps, done underneath</h3>
+        <p>DVC versions every stage automatically, MLflow logs every run as an experiment, fitted models enter a
+        Model Registry with stage promotion, drift is checked on every re-upload, and detected drift can trigger
+        closed-loop auto-retraining and redeployment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="s3">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Objectives</h2></div>
+    <p class="sec-sub">What the system set out to achieve</p>
+    <ol class="plain">
+      <li>Automatically detect and repair common data quality issues without hardcoding rules per dataset.</li>
+      <li>Produce a quantifiable, weighted quality score with a full before/after audit trail.</li>
+      <li>Version every dataset stage automatically so any past version can be reproduced on demand.</li>
+      <li>Track every repair run as an experiment — parameters, metrics, execution time, artifacts.</li>
+      <li>Treat the fitted imputers/outlier detectors as first-class models with a promotion lifecycle, not throwaway objects.</li>
+      <li>Detect statistical drift on re-upload and close the loop with automatic retraining and redeployment.</li>
+      <li>Give operators live visibility into pipeline health through a monitoring dashboard that survives MLflow-side failures.</li>
+    </ol>
+  </section>
+
+  <section class="block" id="s4">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Uniqueness</h2></div>
+    <p class="sec-sub">What goes beyond a typical "upload → clean → download" tool</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Automatic per-stage DVC versioning</h3>
+        <p>Every <code>/upload</code>, <code>/profile</code>, and <code>/repair</code> call transparently
+        <code>dvc add</code>s its output — re-running the same file produces a new tracked version
+        (v1 → v2 → v3) with zero manual DVC commands.</p>
+      </div>
+      <div class="card">
+        <h3>Drift-aware uploads</h3>
+        <p>Re-uploading a filename seen before automatically diffs the new data against the last version —
+        KS test per numeric column, missing-rate delta, outlier-rate delta — surfaced directly in the upload
+        response and UI.</p>
+      </div>
+      <div class="card">
+        <h3>Closed-loop auto-retraining</h3>
+        <p>Detected drift doesn't just alert — it re-fits the KNN Imputer and Isolation Forest, re-scores
+        quality, registers new model versions, and auto-promotes to Production once quality clears 75%,
+        archiving the previous Production version.</p>
+      </div>
+      <div class="card">
+        <h3>Independent monitoring store</h3>
+        <p><code>monitoring.db</code> is a separate SQLite log from MLflow specifically so failures that never
+        reach MLflow — bad uploads, 404s, mid-pipeline errors — are still counted and visible.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wide" id="s5">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Architecture &amp; Workflow</h2></div>
+    <p class="sec-sub">How a CSV moves through the system, end to end</p>
+
+    <div class="pipeline" style="margin-bottom:24px;">
+      <div class="pipe-step">Upload</div><span class="pipe-arrow">→</span>
+      <div class="pipe-step">Validate</div><span class="pipe-arrow">→</span>
+      <div class="pipe-step">Profile</div><span class="pipe-arrow">→</span>
+      <div class="pipe-step">Repair</div><span class="pipe-arrow">→</span>
+      <div class="pipe-step">Quality Score</div><span class="pipe-arrow">→</span>
+      <div class="pipe-step">Report (PDF/JSON/CSV)</div>
+    </div>
+    <p style="font-size:13.8px;color:var(--ink-dim);max-width:70ch;">Running in parallel at every stage:
+    <strong>DVC</strong> versions the output, <strong>MLflow</strong> logs the run, fitted models are pushed to
+    the <strong>Model Registry</strong>, and every event lands in the <strong>Monitoring</strong> store. A
+    re-upload additionally runs <strong>Drift Detection</strong>, which can fire <strong>Auto-Retrain</strong>.</p>
+
+    <div class="diagram-frame">
+<pre>
+flowchart LR
+    subgraph Client
+        FE[React + Vite Frontend]
+    end
+
+    subgraph API["FastAPI Backend"]
+        UP[/upload/]
+        PR[/profile/]
+        RP[/repair/]
+        RPT[/report/]
+        REG[/registry/]
+        MON[/monitoring/]
+        DRF[/drift/]
+    end
+
+    subgraph Services
+        VAL[validation.py]
+        PROF[profiling.py]
+        PREP[preprocessing.py]
+        QUAL[quality.py]
+        REPGEN[report_generator.py]
+        DRIFT[drift_detection.py]
+        RETRAIN[auto_retrain.py]
+        REGISTRY[model_registry.py]
+        MONSVC[monitoring.py]
+        DVCSVC[dvc_tracker.py]
+        MLFSVC[mlflow_tracker.py]
+    end
+
+    subgraph Storage
+        UPD[(uploads/)]
+        DS[(datasets/raw . profiled . repaired . drift)]
+        RPTS[(reports/)]
+        MDL[(models/)]
+        MLDB[(mlflow.db)]
+        MONDB[(monitoring.db)]
+        DVCR[(dvc-storage remote)]
+    end
+
+    FE -->|axios :8000| API
+    UP --> VAL --> UPD
+    UP --> DRIFT --> DS
+    UP --> RETRAIN --> REGISTRY
+    PR --> PROF --> DS
+    RP --> PREP --> UPD
+    RP --> QUAL
+    RP --> REPGEN --> RPTS
+    RP --> REGISTRY --> MDL
+    RP --> MLFSVC --> MLDB
+    RP --> DVCSVC --> DVCR
+    UP --> DVCSVC --> DVCR
+    PR --> DVCSVC --> DVCR
+    MON --> MONSVC --> MONDB
+    REG --> REGISTRY --> MLDB
+    DRF --> DRIFT
+</pre>
+      <p class="diagram-caption">Every route that touches data (upload, profile, repair) also calls into
+      <code>dvc_tracker.py</code>, so each stage is versioned automatically — no manual <code>dvc add</code>.
+      (This is Mermaid flowchart syntax — paste it into <a href="https://mermaid.live" target="_blank" rel="noopener">mermaid.live</a> or a Mermaid-enabled viewer to render it visually.)</p>
+    </div>
+  </section>
+
+  <section class="block wide" id="s6">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Technology Stack</h2></div>
+    <p class="sec-sub">Every tool, and the layer it operates at</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Technology</th><th>Role in the project</th></tr></thead>
+        <tbody>
+          <tr><td>Backend framework</td><td><span class="tag">FastAPI</span> + <span class="tag">Uvicorn</span> (Python 3.13)</td><td>REST API, request routing, ASGI server</td></tr>
+          <tr><td>Data processing</td><td><span class="tag">pandas</span>, <span class="tag">NumPy</span></td><td>Profiling, transformation, statistics</td></tr>
+          <tr><td>Machine learning</td><td><span class="tag">scikit-learn</span> (KNNImputer, IsolationForest, LogisticRegression), <span class="tag">CleanLab</span></td><td>Imputation, outlier detection, label-error detection</td></tr>
+          <tr><td>Validation</td><td><span class="tag">Pandera</span></td><td>Schema validation — types, ranges, allowed values</td></tr>
+          <tr><td>Reporting</td><td><span class="tag">ReportLab</span></td><td>PDF quality-report generation</td></tr>
+          <tr><td>Experiment tracking</td><td><span class="tag">MLflow</span> (SQLite backend)</td><td>Run/parameter/metric/artifact logging</td></tr>
+          <tr><td>Data versioning</td><td><span class="tag">DVC</span> (local filesystem remote)</td><td>Content-hashed versioning per pipeline stage</td></tr>
+          <tr><td>Backend testing</td><td><span class="tag">pytest</span>, <span class="tag">httpx</span></td><td>API + pipeline smoke and unit tests</td></tr>
+          <tr><td>Frontend framework</td><td><span class="tag">React 19</span> + <span class="tag">Vite 8</span></td><td>Component UI, dev server, production build</td></tr>
+          <tr><td>Frontend routing / HTTP</td><td><span class="tag">react-router-dom</span>, <span class="tag">axios</span></td><td>Client routing, API calls to the backend</td></tr>
+          <tr><td>Frontend animation</td><td><span class="tag">Framer Motion</span></td><td>Page transitions, micro-interactions</td></tr>
+          <tr><td>Monitoring store</td><td><span class="tag">SQLite</span> (independent of MLflow)</td><td>Event log that survives MLflow-side failures</td></tr>
+          <tr><td>CI/CD</td><td><span class="tag">GitHub Actions</span></td><td>Automated test + build on every push/PR</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block wide" id="s7">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Module-by-Module Breakdown</h2></div>
+    <p class="sec-sub">Every backend service, what it owns, and the tools behind it</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Module</th><th>Responsibility</th><th>Key file</th><th>Tools used</th></tr></thead>
+        <tbody>
+          <tr><td>Validation</td><td>File + schema checks — extension, size, readability, min rows/columns, duplicate/empty column names</td><td><code>validation.py</code></td><td>Pandera</td></tr>
+          <tr><td>Profiling</td><td>Basic info, missing-value/duplicate analysis, numerical &amp; categorical stats, correlation matrix</td><td><code>profiling.py</code></td><td>pandas, NumPy</td></tr>
+          <tr><td>Repair engine</td><td>8-step data-driven pipeline — structural fixes, type casting, dedup, imputation, outlier handling, column pruning, label-error detection</td><td><code>preprocessing.py</code></td><td>scikit-learn (KNNImputer, IsolationForest), CleanLab, pandas</td></tr>
+          <tr><td>Quality scoring</td><td>Weighted score — Completeness 30% · Uniqueness 25% · Validity 25% · Consistency 20% — with letter grade</td><td><code>quality.py</code></td><td>pandas, NumPy</td></tr>
+          <tr><td>Report generation</td><td>PDF report, structured JSON summary, cleaned CSV export</td><td><code>report_generator.py</code></td><td>ReportLab</td></tr>
+          <tr><td>Experiment tracking</td><td>Logs every repair run — parameters, before/after metrics, execution time, artifacts</td><td><code>mlflow_tracker.py</code></td><td>MLflow</td></tr>
+          <tr><td>Dataset versioning</td><td>Auto <code>dvc add</code> on every upload/profile/repair call</td><td><code>dvc_tracker.py</code></td><td>DVC</td></tr>
+          <tr><td>Model registry</td><td>Registers fitted imputers/detectors, handles Dev → Staging → Production promotion</td><td><code>model_registry.py</code></td><td>MLflow Model Registry, joblib</td></tr>
+          <tr><td>Monitoring</td><td>SQLite event log + <code>timed_event()</code> wrapper around upload/repair</td><td><code>monitoring.py</code></td><td>SQLite</td></tr>
+          <tr><td>Drift detection</td><td>KS-test feature drift, missing-rate delta, outlier-rate delta vs. previous version</td><td><code>drift_detection.py</code></td><td>SciPy (KS test), pandas</td></tr>
+          <tr><td>Auto-retraining</td><td>Drift-triggered retrain → evaluate → register → auto-promote</td><td><code>auto_retrain.py</code></td><td>scikit-learn + model_registry.py</td></tr>
+          <tr><td>Frontend UI</td><td>9 connected pages — upload, analysis, repair, quality, monitoring, settings</td><td><code>frontend/src/pages/</code></td><td>React 19, Vite 8, react-router-dom, axios, Framer Motion</td></tr>
+          <tr><td>CI/CD</td><td>Backend test suite + frontend production build on every push/PR</td><td><code>.github/workflows/ci.yml</code></td><td>GitHub Actions, pytest, httpx</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block wide" id="s8">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Phase-by-Phase Implementation</h2></div>
+    <p class="sec-sub">Build order, from project scaffold to CI/CD — all 16 phases complete</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="num">Phase</th><th>Focus</th><th>Key deliverables</th><th>Tools used</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1</td><td>Project setup</td><td>Folder structure, venv, dependencies, sample dataset (Employee.csv, 4653×9)</td><td>Python venv, pip</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">2</td><td>Backend setup</td><td>FastAPI app, routes/services/utils structure, CORS for the frontend</td><td>FastAPI, Uvicorn</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">3</td><td>Dataset upload</td><td><code>POST /upload</code> — accepts CSV, saves to <code>uploads/</code></td><td>FastAPI, python-multipart</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">4</td><td>Dataset validation</td><td>File checks + schema validation, structured error response</td><td>Pandera</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">5</td><td>Dataset profiling</td><td>Missing/duplicate analysis, numeric &amp; categorical stats, correlation matrix</td><td>pandas, NumPy</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">6</td><td>Repair engine</td><td>Imputation, dedup, outlier handling, invalid-value clipping, label-error detection</td><td>scikit-learn, CleanLab</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">7</td><td>Quality scoring</td><td>Weighted completeness/uniqueness/validity/consistency score + grade</td><td>pandas, NumPy</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">8</td><td>Report generation</td><td>PDF report, JSON summary, cleaned CSV, download endpoints</td><td>ReportLab</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">9</td><td>Frontend</td><td>9 pages wired to the backend API</td><td>React, Vite, react-router-dom, axios</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">10</td><td>MLflow tracking</td><td>Every repair run logged as an experiment, artifacts attached</td><td>MLflow (SQLite backend)</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">11</td><td>DVC</td><td>Raw/profiled/repaired datasets versioned automatically per stage</td><td>DVC, local remote</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">12</td><td>Model registry</td><td>Fitted imputer/detector registered with stage promotion</td><td>MLflow Model Registry, joblib</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">13</td><td>Monitoring</td><td>Independent SQLite event log, live stat tiles, activity feed</td><td>SQLite</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">14</td><td>Drift detection</td><td>KS test, missing-rate delta, outlier-rate delta on re-upload</td><td>SciPy, pandas</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">15</td><td>Auto-retraining</td><td>Drift-triggered retrain → register → auto-promote to Production</td><td>scikit-learn, model_registry.py</td><td><span class="chip chip-done">Done</span></td></tr>
+          <tr><td class="num">16</td><td>CI/CD</td><td>Parallel backend test + frontend build jobs on every push/PR</td><td>GitHub Actions, pytest, httpx</td><td><span class="chip chip-done">Done</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block wide" id="s9">
+    <div class="sec-head"><span class="sec-num">09</span><h2>API Endpoints</h2></div>
+    <p class="sec-sub">The FastAPI surface exposed to the frontend</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="method-post">POST</span></td><td><code>/upload</code></td><td>Upload + validate a CSV; runs drift check and possible auto-retrain</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/profile/{filename}</code></td><td>Full statistical profile of the uploaded dataset</td></tr>
+          <tr><td><span class="method-post">POST</span></td><td><code>/repair/{filename}</code></td><td>Runs the repair pipeline, logs MLflow run + DVC version</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/quality/{filename}</code></td><td>Before/after weighted quality score</td></tr>
+          <tr><td><span class="method-post">POST</span></td><td><code>/report/{filename}</code></td><td>Generates the PDF/JSON/CSV report set</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/report/download/pdf/{filename}</code></td><td>Downloads the PDF report</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/report/download/json/{filename}</code></td><td>Downloads the JSON summary</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/report/download/csv/{filename}</code></td><td>Downloads the cleaned CSV</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/registry/models</code></td><td>Lists registered models, versions, and current stage</td></tr>
+          <tr><td><span class="method-post">POST</span></td><td><code>/registry/models/{name}/{version}/promote</code></td><td>Promotes a model version between Dev / Staging / Production</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/monitoring/stats</code></td><td>Live upload/failure counts, avg quality, avg repair time, recent events</td></tr>
+          <tr><td><span class="method-get">GET</span></td><td><code>/drift/{filename}</code></td><td>Last computed drift report for a dataset</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block wide" id="s10">
+    <div class="sec-head"><span class="sec-num">10</span><h2>Frontend Pages</h2></div>
+    <p class="sec-sub">Nine screens, each mapped to a stage of the pipeline</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Page</th><th>Route</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Landing</td><td><code>/</code></td><td>Marketing/hero page, entry point</td></tr>
+          <tr><td>Login</td><td><code>/login</code></td><td>UI-only sign-in (not yet backed by real auth)</td></tr>
+          <tr><td>Dashboard</td><td><code>/dashboard</code></td><td>Pipeline status, live monitoring snapshot, quick actions</td></tr>
+          <tr><td>Upload</td><td><code>/upload</code></td><td>CSV upload, validation feedback, drift-alert card, auto-retrain summary</td></tr>
+          <tr><td>Analysis</td><td><code>/analysis</code></td><td>Full statistical profile — missing values, duplicates, correlations</td></tr>
+          <tr><td>Repair Result</td><td><code>/repair</code></td><td>Runs the repair pipeline, shows the full audit log</td></tr>
+          <tr><td>Quality Report</td><td><code>/quality</code></td><td>Before/after quality score, PDF/JSON/CSV downloads</td></tr>
+          <tr><td>Monitoring</td><td><code>/monitoring</code></td><td>Live stats, recent activity, Model Registry state</td></tr>
+          <tr><td>Settings</td><td><code>/settings</code></td><td>Configurable API base URL (stored in localStorage)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="s11">
+    <div class="sec-head"><span class="sec-num">11</span><h2>Testing &amp; CI/CD</h2></div>
+    <p class="sec-sub">How correctness is enforced on every change</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Backend test suite</h3>
+        <p>pytest + httpx, covering health/monitoring/registry shape checks, an upload → profile → repair
+        pipeline smoke test, and drift-detection unit tests — run against an isolated scratch directory
+        (<code>MLOPS_TEST_ROOT</code>) so tests never pollute the live dev server's databases.</p>
+      </div>
+      <div class="card">
+        <h3>GitHub Actions</h3>
+        <p>Two parallel jobs on every push/PR: <strong>backend</strong> (install → pytest → import sanity
+        check on Python 3.13) and <strong>frontend</strong> (npm ci → vite build on Node 20). Scoped to
+        build+test only — no deploy step yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="s12">
+    <div class="sec-head"><span class="sec-num">12</span><h2>Roadmap</h2></div>
+    <p class="sec-sub">What's deliberately left for later</p>
+    <ul class="plain">
+      <li><span class="chip chip-pending">Planned</span>&nbsp; Real authentication on the Login page (currently UI-only, no backend verification)</li>
+      <li><span class="chip chip-pending">Planned</span>&nbsp; Containerization (Dockerfile / docker-compose) and an actual deploy step in CI</li>
+      <li><span class="chip chip-pending">Planned</span>&nbsp; Networked backing stores for MLflow/monitoring, to support multiple backend replicas</li>
+      <li><span class="chip chip-pending">Planned</span>&nbsp; Batch / multi-file upload support</li>
+      <li><span class="chip chip-pending">Planned</span>&nbsp; Broader automated test coverage</li>
+    </ul>
+  </section>
+
+  <section class="block" id="s13">
+    <div class="sec-head"><span class="sec-num">13</span><h2>How to Present This — Suggested Flow</h2></div>
+    <p class="sec-sub">A ~15-minute walkthrough order, timed for a review slot</p>
+    <div class="flow-list">
+      <div class="flow-item">
+        <div class="flow-time">0–1 min</div>
+        <div><h4>Open with the problem</h4><p>State it in one line: "raw datasets are never clean enough to model on" — then name two concrete pains (no reproducibility, no drift awareness). Don't read the whole list; pick the two that hit hardest.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-time">1–3 min</div>
+        <div><h4>Introduce the solution</h4><p>One sentence: upload → clean → score → report, with real MLOps infrastructure running underneath. Point at Section 2's two cards — "cleaning" vs "MLOps" — as the two halves of the pitch.</p>
+        <p class="tip">Tip: have the app running in a second browser tab, ready on the Upload page.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-time">3–6 min</div>
+        <div><h4>Live demo — the pipeline</h4><p>Upload a CSV → show validation → Analysis page → Repair Result (the audit log) → Quality Report (before/after score, download a PDF). This is the core "wow" — let the product speak.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-time">6–8 min</div>
+        <div><h4>Walk the architecture diagram</h4><p>Use Section 5's diagram. Trace one path out loud: "Repair calls preprocessing, which calls quality scoring, report generation, MLflow logging, and DVC versioning — all in one request." This is where you show engineering depth.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-time">8–11 min</div>
+        <div><h4>Show the MLOps layer live</h4><p>Open the Monitoring page (live stats + Model Registry state) and, if time allows, the MLflow UI at <code>localhost:5000</code>. Re-upload the same filename to trigger drift detection on screen — it's the most memorable moment in the demo.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-time">11–13 min</div>
+        <div><h4>Name what's unique</h4><p>Hit Section 4's four cards fast: automatic DVC versioning, drift-aware uploads, closed-loop auto-retraining, independent monitoring store. This is your differentiation answer if asked "how is this different from a cleaning script?"</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-time">13–15 min</div>
+        <div><h4>Close with phases done + roadmap</h4><p>One line: "16 phases shipped end-to-end, from project setup through CI/CD" — then name one or two roadmap items (auth, Docker) to show you know what's left, not just what's built.</p>
+        <p class="tip">Tip: if asked about scale, answer from the Roadmap section — don't improvise architecture changes live.</p></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  DataPrep — AI-Powered Dataset Repair &amp; MLOps Platform. Built end-to-end: dataset repair, experiment
+  tracking, data versioning, model registry, drift detection, and auto-retraining.
+</footer>
+</body>
+</html>

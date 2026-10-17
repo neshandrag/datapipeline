@@ -1,0 +1,5 @@
+outs:
+- md5: 2d296fa66130e73e5c79001f3950c6d0
+  size: 418697
+  hash: md5
+  path: predictive_maintenance_machine_dataset_cleaned.csv

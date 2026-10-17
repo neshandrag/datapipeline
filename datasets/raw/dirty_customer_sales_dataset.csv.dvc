@@ -1,0 +1,5 @@
+outs:
+- md5: 5b7561d0b4363829a3ba7754dc621383
+  size: 12888
+  hash: md5
+  path: dirty_customer_sales_dataset.csv

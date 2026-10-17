@@ -1,0 +1,5 @@
+outs:
+- md5: acfb5afe5a624a9195e023f08f12b4d2
+  size: 312
+  hash: md5
+  path: dirty_sales_data.csv
